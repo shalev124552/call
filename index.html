@@ -27,10 +27,10 @@
 <script>
   // The number comes from the part after "#" in the address, which the browser never sends to the server.
   var raw = decodeURIComponent((location.hash || "").slice(1));
-  var digits = raw.replace(/[^\d+]/g, "");
+  var digits = raw.replace(/[^\d+*]/g, "");
   var numEl = document.getElementById("num");
   var callEl = document.getElementById("call");
-  if (digits.length >= 7 && digits.length <= 15) {
+  if (digits.length >= 4 && digits.length <= 16) {
     numEl.textContent = digits;
     callEl.href = "tel:" + digits;
     try { history.replaceState(null, "", location.pathname); } catch (e) {}
