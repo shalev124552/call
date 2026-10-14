@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>חיוג</title>
+<style>
+  :root{--bg:#f2f4f3;--fg:#1b2730;--muted:#5d6b73;--call:#17824a;--ink:#fff}
+  @media (prefers-color-scheme:dark){:root{--bg:#12181c;--fg:#e7ecea;--muted:#9aa7ad;--call:#2fae6a;--ink:#06170d}}
+  html,body{height:100%;margin:0}
+  body{background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}
+  main{display:flex;flex-direction:column;gap:16px;align-items:stretch;width:100%;max-width:22rem;text-align:center}
+  .num{font-size:2rem;font-weight:700;letter-spacing:.05em;direction:ltr}
+  a.call{display:block;background:var(--call);color:var(--ink);text-decoration:none;font-size:1.3rem;font-weight:700;padding:18px;border-radius:14px}
+  p{color:var(--muted);margin:0;font-size:.95rem;line-height:1.5}
+</style>
+</head>
+<body>
+<main>
+  <div class="num" id="num">—</div>
+  <a class="call" id="call" href="#">חייג</a>
+  <p id="msg">החייגן אמור להיפתח לבד. אם לא, לחץ על הכפתור.</p>
+  <p>אחרי השיחה חזור לתותח וסמן תוצאה. אפשר לסגור את הלשונית הזו.</p>
+</main>
+<script>
+  // The number comes from the part after "#" in the address, which the browser never sends to the server.
+  var raw = decodeURIComponent((location.hash || "").slice(1));
+  var digits = raw.replace(/[^\d+]/g, "");
+  var numEl = document.getElementById("num");
+  var callEl = document.getElementById("call");
+  if (digits.length >= 7 && digits.length <= 15) {
+    numEl.textContent = digits;
+    callEl.href = "tel:" + digits;
+    try { history.replaceState(null, "", location.pathname); } catch (e) {}
+    location.href = "tel:" + digits;
+  } else {
+    numEl.textContent = "אין מספר";
+    callEl.style.display = "none";
+    document.getElementById("msg").textContent = "הדף הזה נפתח מכפתור החיוג בתותח השיחות.";
+  }
+</script>
+</body>
+</html>
